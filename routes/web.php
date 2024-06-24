@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,9 +19,16 @@ use App\Http\Controllers\AdminController;
 //         return view('login', compact('users'));
 // });
 
+// auth
+
+Route::get('login', [LoginController::class, 'LoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
+
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
 Route::get('reset', [AdminController::class, 'reset']);
 Route::post('cek_login', [AdminController::class, 'cek_login']);
-Route::get('logout', [AdminController::class, 'logout']);
+// Route::get('logout', [AdminController::class, 'logout']);
 Route::get('user', [AdminController::class, 'user']);
 Route::post('simpanuser', [AdminController::class, 'simpanuser']);
 Route::get('hapususer/{id}', [AdminController::class, 'hapususer']);
@@ -49,4 +57,3 @@ Route::get('hapusjenispengadaan/{id}', [AdminController::class, 'hapusjenispenga
 Route::get('pengadaan', [AdminController::class, 'pengadaan']);
 Route::post('simpanpengadaan', [AdminController::class, 'simpanpengadaan']);
 Route::get('hapuspengadaan/{id}', [AdminController::class, 'hapuspengadaan']);
-

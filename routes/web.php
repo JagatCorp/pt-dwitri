@@ -17,6 +17,7 @@ use App\Http\Controllers\AdminController;
 //     $users = DB::table('users')->get();
 //         return view('login', compact('users'));
 // });
+Route::get('/', [AdminController::class, 'user']);
 
 Route::get('reset', [AdminController::class, 'reset']);
 Route::post('cek_login', [AdminController::class, 'cek_login']);

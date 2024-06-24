@@ -4,8 +4,8 @@
 <section class="content">
           <div class="row">
             <div class="col-xs-12">
-            
-        
+
+
               <div class="box">
                 <div class="box-header">
                   <h3 class="box-title">Data Karyawan  Perusahaan</h3>
@@ -13,9 +13,9 @@
                   <h3 class="box-title"> <button class="btn btn-block btn-primary" data-toggle="modal" data-target="#exampleModal"> + Pegawai</button></h3>
                 </div>
                 </div><!-- /.box-header -->
-                
+
                 <div class="box-body">
-               
+
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                       <tr>
@@ -37,11 +37,11 @@
                         <td>{{ $items->jk }}</td>
                         <td>{{ $items->no_telp }}</td>
                         <td><button type="button" class="btn btn-success  btn-md" data-toggle="modal" data-target="#editPegawai{{ $items->id }}"><i class="glyphicon glyphicon-pencil"></i></button>
-                  <a href="hapususer/{{ $items->id }}"><button type="button" class="btn btn-danger  btn-md" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');"><i class="glyphicon glyphicon-remove-circle"></i></button></a></td>
+                  <a href="hapuspegawai/{{ $items->id }}"><button type="button" class="btn btn-danger  btn-md" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');"><i class="glyphicon glyphicon-remove-circle"></i></button></a></td>
                       </tr>
-                    @endforeach 
+                    @endforeach
                     </tbody>
-                   
+
                   </table>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
@@ -83,9 +83,9 @@
   </div>
   <div class="form-group">
     <label for="exampleFormControlInput1">No Telp</label>
-    <input type="text" name="no_telp" class="form-control" id="exampleFormControlInput1"  required>
+    <input type="number" name="no_telp" class="form-control" id="exampleFormControlInput1"  required>
   </div>
-    
+
 
       </div>
       <div class="modal-footer">
@@ -128,9 +128,9 @@
       </div>
       <div class="form-group">
         <label for="exampleFormControlInput1">No Telp</label>
-        <input type="text" name="no_telp" value="{{ $items->no_telp }}" class="form-control" id="exampleFormControlInput1"  required>
+        <input type="number" name="no_telp" value="{{ $items->no_telp }}" class="form-control" id="exampleFormControlInput1"  required>
       </div>
-  
+
 
       </div>
       <div class="modal-footer">

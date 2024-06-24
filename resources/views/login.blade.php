@@ -20,18 +20,29 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
   </head>
   <body class="login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="{{asset('adminpage')}}/index2.html"><b>SPK</b>SAW</a>
+        <a href="/"><b>PT</b>DWITRI</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
+        @if ($errors->any())
+        <div>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
         <p class="login-box-msg">Sign in to start your session</p>
-        <form action="/cek_login" method="post"  enctype="multipart/form-data">
+        <form  method="POST" action="{{ route('login') }}" enctype="multipart/form-data">
+
         @csrf
           <div class="form-group has-feedback">
-            <input type="text" name="username" class="form-control" placeholder="Email"/>
+            <input type="email" name="email" class="form-control" placeholder="Email"/>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
@@ -39,12 +50,12 @@
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="row">
-            <div class="col-xs-8">    
+            <div class="col-xs-8">
               <div class="checkbox icheck">
                 <label>
                   <input type="checkbox"> Remember Me
                 </label>
-              </div>                        
+              </div>
             </div><!-- /.col -->
             <div class="col-xs-4">
               <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>

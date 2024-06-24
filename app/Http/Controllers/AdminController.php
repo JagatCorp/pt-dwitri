@@ -37,7 +37,7 @@ class AdminController extends Controller
             toast('Login Tidak berhasil', 'warning');
             return redirect('/');
         }
-        
+
     }
     // users
     public function user()
@@ -49,73 +49,70 @@ class AdminController extends Controller
 
 
     public function simpanuser(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'username' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'active' => 'required',
-            'picture' => 'required',
-            'picture.*' => 'mimes:doc,docx,PDF,pdf,jpg,jpeg,png|max:2000',
-        ]);
-        if (isset($_POST['simpan'])) {
-            $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('picture')->getClientOriginalName());
-            $request->file('picture')->move(public_path('fotouser'), $filename);
+{
+    $request->validate([
+        'name' => 'required',
+        'username' => 'required',
+        'email' => 'required|email',
+        'password' => 'nullable|min:6',
+        'phone' => 'required',
+        'address' => 'required',
+        'active' => 'required',
+        'picture' => 'nullable|mimes:doc,docx,pdf,jpg,jpeg,png|max:2000',
+    ]);
 
-            DB::table('users')->insert([
-                'name' => $request->name,
-                'username' => $request->username,
-                'email' => $request->email,
-                'password' => $request->password,
-                'phone' => $request->phone,
-                'picture' => $filename,
-                'address' => $request->address,
-                'active' => $request->active,
-            ]);
-
-        } else {
-            $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('picture')->getClientOriginalName());
-            $request->file('picture')->move(public_path('fotouser'), $filename);
-            if ($request->picture != "") {
-
-                // $value=DB::select("select * from medsos where id_medsos='".$request->id."'");
-                $value = DB::table('users')->where('id_users', $request->id)->first();
-
-                $logo = $value->picture;
-                $image_path = public_path('fotouser/' . $logo);
-                unlink($image_path);
-
-
-                DB::table('users')->where('id_users', $request->id)->update([
-                    'name' => $request->name,
-                    'username' => $request->username,
-                    'email' => $request->email,
-                    'password' => $request->password,
-                    'phone' => $request->phone,
-                    'picture' => $filename,
-                    'address' => $request->address,
-                    'active' => $request->active,
-                ]);
-            } else {
-                DB::table('users')->where('id_users', $request->id)->update([
-                    'name' => $request->name,
-                    'username' => $request->username,
-                    'email' => $request->email,
-                    'password' => $request->password,
-                    'phone' => $request->phone,
-                    'address' => $request->address,
-                    'active' => $request->active,
-                ]);
-
-            }
-
-        }
-        toast('Data sudah diperbaharui', 'success');
-        return redirect('user');
+    $filename = null;
+    if ($request->hasFile('picture')) {
+        $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('picture')->getClientOriginalName());
+        $request->file('picture')->move(public_path('fotouser'), $filename);
     }
+
+    if ($request->has('update')) {
+        $user = DB::table('users')->where('id_users', $request->id_users)->first();
+
+        if ($user && $filename) {
+            $oldPicturePath = public_path('fotouser/' . $user->picture);
+            if (file_exists($oldPicturePath)) {
+                unlink($oldPicturePath);
+            }
+        }
+
+        $updateData = [
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'active' => $request->active,
+        ];
+
+        if ($request->password) {
+            $updateData['password'] = bcrypt($request->password);
+        }
+
+        if ($filename) {
+            $updateData['picture'] = $filename;
+        }
+
+        DB::table('users')->where('id_users', $request->id_users)->update($updateData);
+    } else {
+        DB::table('users')->insert([
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'phone' => $request->phone,
+            'picture' => $filename,
+            'address' => $request->address,
+            'active' => $request->active,
+        ]);
+    }
+
+    toast('Data sudah diperbaharui', 'success');
+    return redirect('user');
+}
+
+
     //Hapus Menu
     public function hapususer($id)
     {
@@ -313,7 +310,7 @@ class AdminController extends Controller
         toast('Data sudah diperbaharui', 'success');
         return redirect('pegawai');
     }
-    //Nidi 
+    //Nidi
 
     public function nidi()
     {
@@ -515,6 +512,6 @@ class AdminController extends Controller
         return redirect('pengadaan');
     }
 
-   
+
 
 }

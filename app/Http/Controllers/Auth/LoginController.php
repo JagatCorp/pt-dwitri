@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    /**
+     * Returns the login view.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function LoginForm()
     {
         return view('login');
@@ -21,7 +26,9 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            // dd(Auth::user());
             $request->session()->regenerate();
+            $request->session()->put('user', Auth::user());
             return redirect()->intended('pegawai');
         }
 

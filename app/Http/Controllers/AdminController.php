@@ -42,7 +42,6 @@ class AdminController extends Controller
     // users
     public function user()
     {
-
         $users = DB::table('users')->get();
         return view('pages.user', compact('users'));
     }
@@ -50,16 +49,17 @@ class AdminController extends Controller
 
     public function simpanuser(Request $request)
 {
-    $request->validate([
-        'name' => 'required',
-        'username' => 'required',
-        'email' => 'required|email',
-        'password' => 'nullable|min:6',
-        'phone' => 'required',
-        'address' => 'required',
-        'active' => 'required',
-        'picture' => 'nullable|mimes:doc,docx,pdf,jpg,jpeg,png|max:2000',
-    ]);
+
+    // $request->validate([
+    //     'name' => 'required',
+    //     'username' => 'required',
+    //     'email' => 'required|email',
+    //     'password' => 'nullable|min:6',
+    //     'phone' => 'required',
+    //     'address' => 'required',
+    //     'active' => 'required',
+    //     'picture' => 'nullable|mimes:doc,docx,pdf,jpg,jpeg,png|max:2000',
+    // ]);
 
     $filename = null;
     if ($request->hasFile('picture')) {
@@ -96,6 +96,7 @@ class AdminController extends Controller
 
         DB::table('users')->where('id_users', $request->id_users)->update($updateData);
     } else {
+
         DB::table('users')->insert([
             'name' => $request->name,
             'username' => $request->username,
@@ -106,10 +107,11 @@ class AdminController extends Controller
             'address' => $request->address,
             'active' => $request->active,
         ]);
+
     }
 
-    toast('Data sudah diperbaharui', 'success');
-    return redirect('user');
+    // toast('Data sudah diperbaharui', 'success');
+    // return redirect('user');
 }
 
 

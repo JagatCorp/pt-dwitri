@@ -317,8 +317,13 @@ class AdminController extends Controller
     public function nidi()
     {
 
-        $nidi = DB::table('tb_nidi')->get();
-        return view('pages.nidi', compact('nidi'));
+        $nidi = DB::table('tb_nidi')
+                    ->join('tb_peruntukannidi', 'tb_nidi.id_peruntukan', '=', 'tb_peruntukannidi.id')
+                    ->select('tb_nidi.*', 'tb_peruntukannidi.nama') // Memilih kolom yang diinginkan
+                    ->get();
+
+        $peruntukannidi = DB::table('tb_peruntukannidi')->get();
+        return view('pages.nidi', compact('nidi', 'peruntukannidi'));
     }
     public function hapusnidi($id)
     {
@@ -334,23 +339,74 @@ class AdminController extends Controller
             'nama' => 'required',
 			'alamat' => 'required',
 			'daya' => 'required',
-			'rupiah' => 'required',
+			'tanggal' => 'required',
+			'pt' => 'required',
+			'sebanyak' => 'required',
+			'id_peruntukan' => 'required',
+			'hrg_nidi_asli' => 'required',
+			'hrg_slo_asli' => 'required',
         ]);
+
         if (isset($_POST['simpan'])) {
+
+            // Harga nidi setelah
+            $hrg_nidi_sebanyak = $request->hrg_nidi_asli * $request->sebanyak;
+            if ($request->pt == 'CIPTA MANDIRI') {
+                $hrg_nidi_set = $hrg_nidi_sebanyak * 0.65;
+                $hrg_nidi_set = $hrg_nidi_sebanyak - $hrg_nidi_set;
+            } else {
+                $hrg_nidi_set = $hrg_nidi_sebanyak;
+            }
+
+            // harga slo setelah
+            $hrg_slo_sebanyak = $request->hrg_slo_asli * $request->sebanyak;
+            $hrg_slo_set = $hrg_slo_sebanyak * 0.65;
+            $hrg_slo_set = $hrg_slo_sebanyak - $hrg_slo_set;
+
+            // dd($hrg_slo_set);
+
             DB::table('tb_nidi')->insert([
                 'nama' => $request->nama,
 				'alamat' => $request->alamat,
 				'daya' => $request->daya,
-				'rupiah' => $request->rupiah,
+				'tanggal' => $request->tanggal,
+				'pt' => $request->pt,
+				'sebanyak' => $request->sebanyak,
+				'id_peruntukan' => $request->id_peruntukan,
+				'hrg_nidi_asli' => $request->hrg_nidi_asli,
+				'hrg_nidi_set' => $hrg_nidi_set,
+				'hrg_slo_asli' => $request->hrg_slo_asli,
+				'hrg_slo_set' => $hrg_slo_set,
             ]);
 
         } else {
+
+            // Harga nidi setelah
+            $hrg_nidi_sebanyak = $request->hrg_nidi_asli * $request->sebanyak;
+            if ($request->pt == 'CIPTA MANDIRI') {
+                $hrg_nidi_set = $hrg_nidi_sebanyak * 0.65;
+                $hrg_nidi_set = $hrg_nidi_sebanyak - $hrg_nidi_set;
+            } else {
+                $hrg_nidi_set = $hrg_nidi_sebanyak;
+            }
+
+            // harga slo setelah
+            $hrg_slo_sebanyak = $request->hrg_slo_asli * $request->sebanyak;
+            $hrg_slo_set = $hrg_slo_sebanyak * 0.65;
+            $hrg_slo_set = $hrg_slo_sebanyak - $hrg_slo_set;
 
             DB::table('tb_nidi')->where('id', $request->id)->update([
                 'nama' => $request->nama,
 				'alamat' => $request->alamat,
 				'daya' => $request->daya,
-				'rupiah' => $request->rupiah,
+				'tanggal' => $request->tanggal,
+				'pt' => $request->pt,
+				'sebanyak' => $request->sebanyak,
+				'id_peruntukan' => $request->id_peruntukan,
+				'hrg_nidi_asli' => $request->hrg_nidi_asli,
+				'hrg_nidi_set' => $hrg_nidi_set,
+				'hrg_slo_asli' => $request->hrg_slo_asli,
+				'hrg_slo_set' => $hrg_slo_set,
             ]);
 
         }

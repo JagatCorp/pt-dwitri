@@ -56,6 +56,10 @@ Route::middleware(['admin'])->group(function () {
     Route::post('simpanjenisjasa', [AdminController::class, 'simpanjenisjasa']);
     Route::get('hapusjenisjasa/{id}', [AdminController::class, 'hapusjenisjasa']);
 
+    Route::get('peruntukannidi', [AdminController::class, 'peruntukannidi']);
+    Route::post('simpanperuntukannidi', [AdminController::class, 'simpanperuntukannidi']);
+    Route::get('hapusperuntukannidi/{id}', [AdminController::class, 'hapusperuntukannidi']);
+
     Route::get('jenispengadaan', [AdminController::class, 'jenispengadaan']);
     Route::post('simpanjenispengadaan', [AdminController::class, 'simpanjenispengadaan']);
     Route::get('hapusjenispengadaan/{id}', [AdminController::class, 'hapusjenispengadaan']);

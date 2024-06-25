@@ -8,9 +8,9 @@
 
               <div class="box">
                 <div class="box-header">
-                  <h3 class="box-title">Data Jenis Jasa Perusahaan</h3>
+                  <h3 class="box-title">Data Peruntukan Nidi Perusahaan</h3>
                   <div class="box-header" align="right">
-                  <h3 class="box-title"> <button class="btn btn-block btn-primary" data-toggle="modal" data-target="#exampleModal"> + Jenis Jasa</button></h3>
+                  <h3 class="box-title"> <button class="btn btn-block btn-primary" data-toggle="modal" data-target="#exampleModal"> + Peruntukan Nidi</button></h3>
                 </div>
                 </div><!-- /.box-header -->
 
@@ -26,12 +26,12 @@
                     </thead>
                     <tbody>
                     @php $no = 1; @endphp
-                    @foreach ($jenisjasa as $items )
+                    @foreach ($peruntukannidi as $items )
                       <tr>
                         <td>{{ $no++ }}</td>
                         <td>{{ $items->nama }}</td>
                         <td><button type="button" class="btn btn-success  btn-md" data-toggle="modal" data-target="#editPegawai{{ $items->id }}"><i class="glyphicon glyphicon-pencil"></i></button>
-                  <a href="hapusjenisjasa/{{ $items->id }}"><button type="button" class="btn btn-danger  btn-md" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');"><i class="glyphicon glyphicon-remove-circle"></i></button></a></td>
+                  <a href="hapusperuntukannidi/{{ $items->id }}"><button type="button" class="btn btn-danger  btn-md" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');"><i class="glyphicon glyphicon-remove-circle"></i></button></a></td>
                       </tr>
                     @endforeach
                     </tbody>
@@ -52,13 +52,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Form Input Jenis Jasa</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Form Input Peruntukan Nidi</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-      <form action="simpanjenisjasa" method="POST" enctype="multipart/form-data">
+      <form action="simpanperuntukannidi" method="POST" enctype="multipart/form-data">
        @csrf
   <div class="form-group">
     <label for="exampleFormControlInput1">Nama </label>
@@ -76,18 +76,18 @@
   </div>
 </div>
 
-@foreach ($jenisjasa as $items )
+@foreach ($peruntukannidi as $items )
 <div class="modal fade" id="editPegawai{{ $items->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Form Jenis Jasa</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Form Peruntukan Nidi</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-      <form action="simpanjenisjasa" method="POST" enctype="multipart/form-data">
+      <form action="simpanperuntukannidi" method="POST" enctype="multipart/form-data">
        @csrf
        <input type="hidden" name="id" value="{{ $items->id }}" >
        <div class="form-group">

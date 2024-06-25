@@ -436,6 +436,42 @@ class AdminController extends Controller
         return redirect('jenisjasa');
     }
 
+
+    public function peruntukannidi()
+    {
+
+        $peruntukannidi = DB::table('tb_peruntukannidi')->get();
+        return view('pages.peruntukannidi', compact('peruntukannidi'));
+    }
+    public function hapusperuntukannidi($id)
+    {
+        DB::table('tb_peruntukannidi')->where('id', $id)->delete();
+        // Alert::warning('Data Sudah diHapus');
+        toast('Data sudah dihapus', 'success');
+        return redirect('peruntukannidi');
+    }
+
+    public function simpanperuntukannidi(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required',
+        ]);
+        if (isset($_POST['simpan'])) {
+            DB::table('tb_peruntukannidi')->insert([
+                'nama' => $request->nama,
+            ]);
+
+        } else {
+
+            DB::table('tb_peruntukannidi')->where('id', $request->id)->update([
+                'nama' => $request->nama,
+            ]);
+
+        }
+        toast('Data sudah diperbaharui', 'success');
+        return redirect('peruntukannidi');
+    }
+
     public function jenispengadaan()
     {
 

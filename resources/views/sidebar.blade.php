@@ -30,6 +30,7 @@
               <ul class="treeview-menu">
                 <li><a href="{{ url('user') }}"><i class="fa fa-circle-o"></i> Users</a></li>
                 <li><a href="{{ url('jenisjasa') }}"><i class="fa fa-circle-o"></i> Jenis Jasa</a></li>
+                <li><a href="{{ url('peruntukannidi') }}"><i class="fa fa-circle-o"></i> Peruntukan Nidi</a></li>
                 <li><a href="{{ url('jenispengadaan') }}"><i class="fa fa-circle-o"></i> Jenis Pengadaan</a></li>
                 <li><a href="{{ url('slo') }}"><i class="fa fa-circle-o"></i> SLO</a></li>
               </ul>

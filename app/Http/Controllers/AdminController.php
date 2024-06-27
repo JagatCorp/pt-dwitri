@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Exports\TransaksiKeuanganExport;
+use App\Exports\NidiExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
@@ -315,7 +316,18 @@ class AdminController extends Controller
         toast('Data sudah diperbaharui', 'success');
         return redirect('pegawai');
     }
+
     //Nidi
+
+    public function exportNidi(Request $request)
+    {
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        $filename = 'nidi_data_' . $start_date . '_to_' . $end_date . '.xlsx';
+
+        return Excel::download(new NidiExport($start_date, $end_date), $filename);
+    }
 
     public function nidi()
     {

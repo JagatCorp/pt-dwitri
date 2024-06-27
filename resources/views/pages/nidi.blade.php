@@ -12,6 +12,11 @@
                         <div class="box-header" align="right">
                             <h3 class="box-title"> <button class="btn btn-block btn-primary" data-toggle="modal"
                                     data-target="#exampleModal"> + Nidi</button></h3>
+                            <form action="{{ route('export.nidi') }}" method="GET" style="display:inline-block;">
+                                <input type="date" name="start_date" required>
+                                <input type="date" name="end_date" required>
+                                <button type="submit" class="btn btn-block btn-success">Export Excel</button>
+                            </form>
                         </div>
                     </div><!-- /.box-header -->
 

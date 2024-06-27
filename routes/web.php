@@ -59,6 +59,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('peruntukannidi', [AdminController::class, 'peruntukannidi']);
     Route::post('simpanperuntukannidi', [AdminController::class, 'simpanperuntukannidi']);
     Route::get('hapusperuntukannidi/{id}', [AdminController::class, 'hapusperuntukannidi']);
+    Route::get('export-nidi', [AdminController::class, 'exportNidi'])->name('export.nidi');
 
     Route::get('transaksi_keuangan', [AdminController::class, 'transaksi_keuangan']);
     Route::post('simpantransaksi_keuangan', [AdminController::class, 'simpantransaksi_keuangan']);

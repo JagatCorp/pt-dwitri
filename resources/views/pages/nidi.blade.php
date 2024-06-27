@@ -47,18 +47,24 @@
                                         <td>{{ $items->pt }}</td>
                                         <td>{{ $items->sebanyak }}</td>
                                         {{-- nama dari table peruntukannidi --}}
-                                        <td>{{ $items->nama }}</td>
+                                        <td>{{ $items->peruntukan_nama }}</td>
                                         <td>{{ number_format($items->hrg_nidi_asli, 0, ',', '.') }}</td>
                                         <td>{{ number_format($items->hrg_nidi_set, 0, ',', '.') }}</td>
                                         <td>{{ number_format($items->hrg_slo_asli, 0, ',', '.') }}</td>
                                         <td>{{ number_format($items->hrg_slo_set, 0, ',', '.') }}</td>
-                                        <td><button type="button" class="btn btn-success  btn-md" data-toggle="modal"
-                                                data-target="#editPegawai{{ $items->id }}"><i
-                                                    class="glyphicon glyphicon-pencil"></i></button>
-                                            <a href="hapusnidi/{{ $items->id }}"><button type="button"
-                                                    class="btn btn-danger  btn-md"
-                                                    onclick="return confirm('Apakah Anda Yakin Menghapus Data?');"><i
-                                                        class="glyphicon glyphicon-remove-circle"></i></button></a>
+                                        <td>
+                                            @if ($items->id == $nidi_terakhir->id && $isNidiEdit)
+                                                {{-- <button type="button" class="btn btn-success  btn-md" data-toggle="modal"
+                                                    data-target="#editPegawai{{ $items->id }}">
+                                                    <i class="glyphicon glyphicon-pencil"></i>
+                                                </button> --}}
+                                                <a href="hapusnidi/{{ $items->id }}">
+                                                    <button type="button" class="btn btn-danger  btn-md"
+                                                        onclick="return confirm('Apakah Anda Yakin Menghapus Data?');">
+                                                        <i class="glyphicon glyphicon-remove-circle"></i>
+                                                    </button>
+                                                </a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -191,7 +197,8 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Tanggal</label>
-                            <input type="date" name="tanggal" value="{{ $items->tanggal }}" class="form-control" id="exampleFormControlInput1" required>
+                            <input type="date" name="tanggal" value="{{ $items->tanggal }}" class="form-control"
+                                id="exampleFormControlInput1" required>
                         </div>
 
                         <div class="form-group">
@@ -199,13 +206,15 @@
                             <select name="pt" class="form-control" id="exampleFormControlInput1" required>
                                 <option value="">Pilih PT</option>
                                 <option value="DWITRI" {{ $items->pt == 'DWITRI' ? 'selected' : '' }}>DWITRI</option>
-                                <option value="CIPTA MANDIRI" {{ $items->pt == 'CIPTA MANDIRI' ? 'selected' : '' }}>CIPTA MANDIRI</option>
+                                <option value="CIPTA MANDIRI" {{ $items->pt == 'CIPTA MANDIRI' ? 'selected' : '' }}>
+                                    CIPTA MANDIRI</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Sebanyak</label>
-                            <input type="number" name="sebanyak" value="{{ $items->sebanyak }}" class="form-control" id="exampleFormControlInput1" required>
+                            <input type="number" name="sebanyak" value="{{ $items->sebanyak }}"
+                                class="form-control" id="exampleFormControlInput1" required>
                         </div>
 
                         <div class="form-group">
@@ -213,19 +222,23 @@
                             <select name="id_peruntukan" class="form-control" id="exampleFormControlInput1" required>
                                 <option value="">Pilih Peruntukan</option>
                                 @foreach ($peruntukannidi as $item)
-                                    <option value="{{ $item->id }}" {{ $items->id_peruntukan == $item->id ? 'selected' : '' }}>{{ $item->nama }}</option>
+                                    <option value="{{ $item->id }}"
+                                        {{ $items->id_peruntukan == $item->id ? 'selected' : '' }}>{{ $item->nama }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Harga NIDI Asli</label>
-                            <input type="number" name="hrg_nidi_asli" value="{{ $items->hrg_nidi_asli }}" class="form-control" id="exampleFormControlInput1" required>
+                            <input type="number" name="hrg_nidi_asli" value="{{ $items->hrg_nidi_asli }}"
+                                class="form-control" id="exampleFormControlInput1" required>
                         </div>
 
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Harga SLO Asli</label>
-                            <input type="number" name="hrg_slo_asli" value="{{ $items->hrg_slo_asli }}" class="form-control" id="exampleFormControlInput1" required>
+                            <input type="number" name="hrg_slo_asli" value="{{ $items->hrg_slo_asli }}"
+                                class="form-control" id="exampleFormControlInput1" required>
                         </div>
 
                         {{-- <div class="form-group">

@@ -60,6 +60,11 @@ Route::middleware(['admin'])->group(function () {
     Route::post('simpanperuntukannidi', [AdminController::class, 'simpanperuntukannidi']);
     Route::get('hapusperuntukannidi/{id}', [AdminController::class, 'hapusperuntukannidi']);
 
+    Route::get('transaksi_keuangan', [AdminController::class, 'transaksi_keuangan']);
+    Route::post('simpantransaksi_keuangan', [AdminController::class, 'simpantransaksi_keuangan']);
+    Route::get('hapustransaksi_keuangan/{id}', [AdminController::class, 'hapustransaksi_keuangan']);
+    Route::get('/export-transaksi-keuangan', [AdminController::class, 'exportExcel'])->name('export-transaksi-keuangan');
+
     Route::get('jenispengadaan', [AdminController::class, 'jenispengadaan']);
     Route::post('simpanjenispengadaan', [AdminController::class, 'simpanjenispengadaan']);
     Route::get('hapusjenispengadaan/{id}', [AdminController::class, 'hapusjenispengadaan']);

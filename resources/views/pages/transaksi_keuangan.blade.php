@@ -9,7 +9,7 @@
                         <h3 class="box-title">Data Transkaksi Keuangan Perusahaan</h3>
                         <div class="box-header" align="right">
                             <h3 class="box-title">
-                                <button class="btn btn-block btn-primary" data-toggle="modal" data-target="#exampleModal"> + Peruntukan Nidi</button>
+                                <button class="btn btn-block btn-primary" data-toggle="modal" data-target="#exampleModal"> + Transaksi Keuangan</button>
                             </h3>
                         </div>
                         <div align="right">
@@ -21,6 +21,14 @@
                                 <div class="form-group">
                                     <label for="end_date">Sampai Tanggal:</label>
                                     <input type="date" name="end_date" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="is_bank">Bank BNI:</label>
+                                    <select name="is_bank" class="form-control">
+                                        <option value="">Semua</option>
+                                        <option value="0">Tidak</option>
+                                        <option value="1">Ya</option>
+                                    </select>
                                 </div>
                                 <button type="submit" class="btn btn-success">Export to Excel</button>
                             </form>
@@ -35,8 +43,9 @@
                                     <th>No </th>
                                     <th>Tanggal </th>
                                     <th>Keterangan </th>
+                                    <th>BNI </th>
                                     <th>Penerimaan </th>
-                                    <th>Pemasukan </th>
+                                    <th>Pengeluaran </th>
                                     <th>Saldo </th>
                                     <th width="100px">Aksi</th>
                                 </tr>
@@ -48,6 +57,7 @@
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $items->tanggal }}</td>
                                         <td>{{ $items->keterangan }}</td>
+                                        <td>{{ $items->is_bank ? 'Yes' : 'No' }}</td>
                                         <td>{{ $items->status == 'penerimaan' ? $items->jml_transaksi : 0 }}</td>
                                         <td>{{ $items->status == 'pengeluaran' ? $items->jml_transaksi : 0 }}</td>
                                         <td>{{ $items->saldo_akhir }}</td>
@@ -87,7 +97,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Form Input Peruntukan Nidi</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Form Transaksi Keuangan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -108,6 +118,14 @@
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Keterangan </label>
                         <textarea name="keterangan" class="form-control" id="exampleFormControlInput1" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Bank BNI</label>
+                        <select name="is_bank" class="form-control" id="exampleFormControlInput1">
+                            <option value="0">Tidak</option>
+                            <option value="1">Ya</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -141,7 +159,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form Peruntukan Nidi</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Form Transaksi Keuangan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

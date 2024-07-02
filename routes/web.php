@@ -30,10 +30,13 @@ Route::middleware(['isadmin'])->group(function () {
 
     Route::get('reset', [AdminController::class, 'reset']);
     Route::post('cek_login', [AdminController::class, 'cek_login']);
-    // Route::get('logout', [AdminController::class, 'logout']);
+
 });
 
+
 Route::middleware(['admin'])->group(function () {
+    Route::post('logout', [LoginController::class, 'logout']);
+
     Route::get('/', [AdminController::class, 'user']);
     Route::get('user', [AdminController::class, 'user']);
     Route::post('simpanuser', [AdminController::class, 'simpanuser']);

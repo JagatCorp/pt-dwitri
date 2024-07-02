@@ -152,9 +152,9 @@
               </ul>
             </li> -->
             {{-- <li><a href="{{ url('nilai_akhir') }}"><i class="fa fa-book"></i> Hasil Penilaian</a></li> --}}
-            <li class="header">Laporan</li>
+            {{-- <li class="header">Laporan</li> --}}
             <!-- <li><a href="#"><i class="fa fa-circle-o text-danger"></i> Data Pegawai</a></li>
             <li><a href="#"><i class="fa fa-circle-o text-warning"></i> Data Kriteria</a></li> -->
-            <li><a href="{{ url('cetaknilai') }}"><i class="fa fa-circle-o text-info"></i> Data Pegawai</a></li>
+            {{-- <li><a href="{{ url('cetaknilai') }}"><i class="fa fa-circle-o text-info"></i> Data Pegawai</a></li> --}}
           </ul>
         </section>

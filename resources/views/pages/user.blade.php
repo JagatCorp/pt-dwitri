@@ -42,8 +42,14 @@
                         <td>{{ $items->phone }}</td>
                         <td>{{ $items->address }}</td>
                         <td>{{ $items->active }}</td>
-                        <td><button type="button" class="btn btn-success  btn-md" data-toggle="modal" data-target="#editUsers{{ $items->id_users }}"><i class="glyphicon glyphicon-pencil"></i></button>
-                  <a href="hapususer/{{ $items->id_users }}"><button type="button" class="btn btn-danger  btn-md" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');"><i class="glyphicon glyphicon-remove-circle"></i></button></a></td>
+                        <td>
+                        <button type="button" class="btn btn-success  btn-md" data-toggle="modal" data-target="#editUsers{{ $items->id_users }}">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                        </button>
+
+                        @if(session('user')->id_users != $items->id_users)
+                            <a href="hapususer/{{ $items->id_users }}"><button type="button" class="btn btn-danger  btn-md" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');"><i class="glyphicon glyphicon-remove-circle"></i></button></a></td>
+                        @endif
                       </tr>
                     @endforeach
                     </tbody>

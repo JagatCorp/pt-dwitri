@@ -46,6 +46,7 @@ class AdminController extends Controller
     // users
     public function user()
     {
+        // dd(session('user')->id_users);
         $users = DB::table('users')->get();
         return view('pages.user', compact('users'));
     }
@@ -115,7 +116,7 @@ class AdminController extends Controller
         }
 
         // toast('Data sudah diperbaharui', 'success');
-        // return redirect('user');
+        return redirect('user');
     }
 
 
@@ -438,6 +439,7 @@ class AdminController extends Controller
                 'saldo_awal' => $saldo_akhir_asli,
                 'saldo_akhir' => $saldo_akhir,
                 'jml_transaksi' => $jml_transaksi,
+                'is_bank' => $request->is_bank,
                 'id_relasi' => $id_baru
             ]);
 
@@ -597,16 +599,27 @@ class AdminController extends Controller
     {
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
+        $is_bank = $request->input('is_bank');
 
-        // Format the dates for naming the file
+        // Format tanggal untuk penamaan file
         $start_date_formatted = date('Ymd', strtotime($start_date));
         $end_date_formatted = date('Ymd', strtotime($end_date));
 
-        // Generate the file name
-        $file_name = 'transaksi_keuangan_' . $start_date_formatted . '_to_' . $end_date_formatted . '.xlsx';
+        // Buat nama file
+        $file_name = 'transaksi_keuangan_' . $start_date_formatted . '_to_' . $end_date_formatted;
+        if ($is_bank !== null) {
+            $file_name .= '_bank_' . ($is_bank ? 'ya' : 'tidak');
+        }
 
-        // Download the Excel file
-        return Excel::download(new TransaksiKeuanganExport($start_date, $end_date), $file_name);
+        // Tambahkan indikator bank jika dipilih
+        if ($is_bank !== null) {
+            $file_name .= '_bank_' . ($is_bank ? 'ya' : 'tidak');
+        }
+
+        $file_name .= '.xlsx';
+
+        // Unduh file Excel
+        return Excel::download(new TransaksiKeuanganExport($start_date, $end_date, $is_bank), $file_name);
     }
 
     public function transaksi_keuangan()
@@ -639,6 +652,7 @@ class AdminController extends Controller
             'keterangan' => 'required|string',
             'status' => 'required|string',
             'jml_transaksi' => 'required|numeric',
+            'is_bank' => 'required|boolean',
         ]);
 
 
@@ -653,6 +667,7 @@ class AdminController extends Controller
                 'saldo_awal' => $request->saldo_awal,
                 'saldo_akhir' => $saldo_akhir,
                 'jml_transaksi' => $request->jml_transaksi,
+                'is_bank' => $request->is_bank,
             ]);
 
         } else {
@@ -666,6 +681,7 @@ class AdminController extends Controller
                 'saldo_awal' => $request->saldo_awal,
                 'saldo_akhir' => $saldo_akhir,
                 'jml_transaksi' => $request->jml_transaksi,
+                'is_bank' => $request->is_bank,
             ]);
 
         }

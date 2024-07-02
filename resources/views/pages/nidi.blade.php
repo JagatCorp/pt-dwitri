@@ -149,6 +149,15 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="exampleFormControlInput1">Transfer BNI</label>
+                        <select name="is_bank" class="form-control" id="exampleFormControlInput1" required>
+                            {{-- <option value="">Semua</option> --}}
+                            <option value="1">Ya</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label for="exampleFormControlInput1">Harga NIDI Asli</label>
                         <input type="number" name="hrg_nidi_asli" class="form-control" id="exampleFormControlInput1"
                             required>

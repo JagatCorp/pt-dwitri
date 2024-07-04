@@ -62,6 +62,7 @@
               <ul class="treeview-menu">
                 <li><a href="{{ url('pengadaan') }}"><i class="fa fa-circle-o"></i> Pengadaan</a></li>
                 <li><a href="{{ url('transaksi_keuangan') }}"><i class="fa fa-circle-o"></i> Transaksi Keuangan</a></li>
+                <li><a href="{{ url('bni') }}"><i class="fa fa-circle-o"></i> BNI</a></li>
                 <li><a href="{{ url('nidi') }}"><i class="fa fa-circle-o"></i> NIDI</a></li>
               </ul>
             </li>

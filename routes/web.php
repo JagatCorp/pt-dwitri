@@ -69,6 +69,11 @@ Route::middleware(['admin'])->group(function () {
     Route::get('hapustransaksi_keuangan/{id}', [AdminController::class, 'hapustransaksi_keuangan']);
     Route::get('/export-transaksi-keuangan', [AdminController::class, 'exportExcel'])->name('export-transaksi-keuangan');
 
+    Route::get('bni', [AdminController::class, 'bni']);
+    Route::post('simpanbni', [AdminController::class, 'simpanbni']);
+    Route::get('hapusbni/{id}', [AdminController::class, 'hapusbni']);
+    Route::get('/export-bni', [AdminController::class, 'exportExcelBni'])->name('export-bni');
+
     Route::get('jenispengadaan', [AdminController::class, 'jenispengadaan']);
     Route::post('simpanjenispengadaan', [AdminController::class, 'simpanjenispengadaan']);
     Route::get('hapusjenispengadaan/{id}', [AdminController::class, 'hapusjenispengadaan']);

@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class TransaksiKeuanganExport implements FromCollection, WithHeadings, WithStyles, ShouldAutoSize, WithEvents
+class BniExport implements FromCollection, WithHeadings, WithStyles, ShouldAutoSize, WithEvents
 {
     protected $start_date;
     protected $end_date;
@@ -24,7 +24,7 @@ class TransaksiKeuanganExport implements FromCollection, WithHeadings, WithStyle
 
     public function collection()
     {
-        $query = DB::table('tb_transaksi_keuangan')
+        $query = DB::table('tb_bni')
             ->select('tanggal', 'keterangan', 'status', 'jml_transaksi', 'saldo_akhir', 'saldo_awal')
             ->whereBetween('tanggal', [$this->start_date, $this->end_date]);
 

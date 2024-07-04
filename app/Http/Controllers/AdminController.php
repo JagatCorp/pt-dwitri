@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Exports\TransaksiKeuanganExport;
+use App\Exports\BniExport;
 use App\Exports\NidiExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -599,28 +600,117 @@ class AdminController extends Controller
     {
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
-        $is_bank = $request->input('is_bank');
 
         // Format tanggal untuk penamaan file
         $start_date_formatted = date('Ymd', strtotime($start_date));
         $end_date_formatted = date('Ymd', strtotime($end_date));
 
         // Buat nama file
-        $file_name = 'transaksi_keuangan_' . $start_date_formatted . '_to_' . $end_date_formatted;
-        if ($is_bank !== null) {
-            $file_name .= '_bank_' . ($is_bank ? 'ya' : 'tidak');
-        }
-
-        // Tambahkan indikator bank jika dipilih
-        if ($is_bank !== null) {
-            $file_name .= '_bank_' . ($is_bank ? 'ya' : 'tidak');
-        }
-
-        $file_name .= '.xlsx';
+        $file_name = 'transaksi_keuangan_' . $start_date_formatted . '_to_' . $end_date_formatted . '.xlsx';
 
         // Unduh file Excel
-        return Excel::download(new TransaksiKeuanganExport($start_date, $end_date, $is_bank), $file_name);
+        return Excel::download(new TransaksiKeuanganExport($start_date, $end_date), $file_name);
     }
+
+    public function exportExcelBni(Request $request)
+    {
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        // Format tanggal untuk penamaan file
+        $start_date_formatted = date('Ymd', strtotime($start_date));
+        $end_date_formatted = date('Ymd', strtotime($end_date));
+
+        // Buat nama file
+        $file_name = 'BNI_' . $start_date_formatted . '_to_' . $end_date_formatted . '.xlsx';
+
+        // Unduh file Excel
+        return Excel::download(new BniExport($start_date, $end_date), $file_name);
+    }
+
+    // SECTION BNI
+    public function bni()
+    {
+        $bni = DB::table('tb_bni')->orderBy('id', 'desc')->get();
+        $bni_terakhir = DB::table('tb_bni')->orderBy('id', 'desc')->first();
+        return view('pages.bni', compact('bni', 'bni_terakhir'));
+    }
+    public function hapusbni($id)
+    {
+        // menghapus transaksi keuangan
+        DB::table('tb_transaksi_keuangan')->where('id_relasi', $id)->delete();
+        DB::table('tb_bni')->where('id', $id)->delete();
+
+        // Alert::warning('Data Sudah diHapus');
+        toast('Data sudah dihapus', 'success');
+        return redirect('bni');
+    }
+
+    public function simpanbni(Request $request)
+    {
+        $request->validate([
+            'tanggal' => 'required|date',
+            'keterangan' => 'required|string',
+            'status' => 'required|string',
+            'jml_transaksi' => 'required|numeric',
+        ]);
+
+
+        if (isset($_POST['simpan'])) {
+
+            $saldo_akhir = $request->status == 'penerimaan' ? $request->saldo_awal + $request->jml_transaksi : $request->saldo_awal - $request->jml_transaksi;
+
+            $id = DB::table('tb_bni')->insertGetId([
+                'tanggal' => $request->tanggal,
+                'keterangan' => $request->keterangan,
+                'status' => $request->status,
+                'saldo_awal' => $request->saldo_awal,
+                'saldo_akhir' => $saldo_akhir,
+                'jml_transaksi' => $request->jml_transaksi,
+            ]);
+
+            if($request->status == 'pengeluaran'){
+
+                $transaksi_keuangan = DB::table('tb_transaksi_keuangan')
+                ->orderBy('id', 'desc')
+                ->first();
+
+                $saldo_akhir_transaksi = $transaksi_keuangan->saldo_akhir + $request->jml_transaksi;
+
+
+                DB::table('tb_transaksi_keuangan')->insert([
+                    'tanggal' => $request->tanggal,
+                    'keterangan' => $request->keterangan,
+                    'status' => 'penerimaan',
+                    'saldo_awal' => $transaksi_keuangan->saldo_awal,
+                    'saldo_akhir' => $saldo_akhir_transaksi,
+                    'jml_transaksi' => $request->jml_transaksi,
+                    'is_bank' => 1,
+                    'id_relasi' => $id
+                ]);
+
+            }
+
+        }
+        // else {
+
+        //     $saldo_akhir = $request->status == 'penerimaan' ? $request->saldo_awal + $request->jml_transaksi : $request->saldo_awal - $request->jml_transaksi;
+
+        //     DB::table('tb_bni')->where('id', $request->id)->update([
+        //         'tanggal' => $request->tanggal,
+        //         'keterangan' => $request->keterangan,
+        //         'status' => $request->status,
+        //         'saldo_awal' => $request->saldo_awal,
+        //         'saldo_akhir' => $saldo_akhir,
+        //         'jml_transaksi' => $request->jml_transaksi,
+        //     ]);
+
+        // }
+        toast('Data sudah diperbaharui', 'success');
+        return redirect('bni');
+    }
+    // !SECTION BNI
+
 
     public function transaksi_keuangan()
     {
@@ -635,6 +725,9 @@ class AdminController extends Controller
         // menghapus data nidi yang berelasi ke transaksi_keuangan yang di hapus
         if (Str::contains($dataTransaksiKeuangan->keterangan, 'Penerimaan SLO & NIDI')) {
             DB::table('tb_nidi')->where('id', $dataTransaksiKeuangan->id_relasi)->delete();
+        }
+        elseif($dataTransaksiKeuangan->is_bank == 1){
+            DB::table('tb_bni')->where('id', $dataTransaksiKeuangan->id_relasi)->delete();
         }
 
         // menghapus transaksi keuangan
@@ -688,6 +781,7 @@ class AdminController extends Controller
         toast('Data sudah diperbaharui', 'success');
         return redirect('transaksi_keuangan');
     }
+
 
     public function jenispengadaan()
     {

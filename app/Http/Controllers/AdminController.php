@@ -440,7 +440,7 @@ class AdminController extends Controller
                 'saldo_awal' => $saldo_akhir_asli,
                 'saldo_akhir' => $saldo_akhir,
                 'jml_transaksi' => $jml_transaksi,
-                'is_bank' => $request->is_bank,
+                'is_bank' => 0,
                 'id_relasi' => $id_baru
             ]);
 
@@ -635,6 +635,7 @@ class AdminController extends Controller
         $bni_terakhir = DB::table('tb_bni')->orderBy('id', 'desc')->first();
         return view('pages.bni', compact('bni', 'bni_terakhir'));
     }
+
     public function hapusbni($id)
     {
         // menghapus transaksi keuangan
@@ -745,7 +746,6 @@ class AdminController extends Controller
             'keterangan' => 'required|string',
             'status' => 'required|string',
             'jml_transaksi' => 'required|numeric',
-            'is_bank' => 'required|boolean',
         ]);
 
 
@@ -760,7 +760,7 @@ class AdminController extends Controller
                 'saldo_awal' => $request->saldo_awal,
                 'saldo_akhir' => $saldo_akhir,
                 'jml_transaksi' => $request->jml_transaksi,
-                'is_bank' => $request->is_bank,
+                'is_bank' => 0,
             ]);
 
         } else {
@@ -774,7 +774,7 @@ class AdminController extends Controller
                 'saldo_awal' => $request->saldo_awal,
                 'saldo_akhir' => $saldo_akhir,
                 'jml_transaksi' => $request->jml_transaksi,
-                'is_bank' => $request->is_bank,
+                'is_bank' => 0,
             ]);
 
         }

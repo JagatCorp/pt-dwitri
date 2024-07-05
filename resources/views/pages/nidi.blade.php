@@ -48,7 +48,7 @@
                                         <td>{{ $items->nama }}</td>
                                         <td>{{ $items->alamat }}</td>
                                         <td>{{ $items->daya }}</td>
-                                        <td>{{ $items->tanggal }}</td>
+                                        <td>{{ (new DateTime($items->tanggal))->format('d-M-y') }}</td>
                                         <td>{{ $items->pt }}</td>
                                         <td>{{ $items->sebanyak }}</td>
                                         {{-- nama dari table peruntukannidi --}}
@@ -145,15 +145,6 @@
                             @foreach ($peruntukannidi as $item)
                                 <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Transfer BNI</label>
-                        <select name="is_bank" class="form-control" id="exampleFormControlInput1" required>
-                            {{-- <option value="">Semua</option> --}}
-                            <option value="1">Ya</option>
-                            <option value="0">No</option>
                         </select>
                     </div>
 

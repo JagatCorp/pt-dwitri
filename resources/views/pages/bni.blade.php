@@ -46,7 +46,7 @@
                                 @foreach ($bni as $items)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $items->tanggal }}</td>
+                                        <td>{{ (new DateTime($items->tanggal))->format('d-M-y H:i') }}</td>
                                         <td>{{ $items->keterangan }}</td>
                                         <td>{{ $items->status == 'penerimaan' ? $items->jml_transaksi : 0 }}</td>
                                         <td>{{ $items->status == 'pengeluaran' ? $items->jml_transaksi : 0 }}</td>

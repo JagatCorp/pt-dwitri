@@ -47,7 +47,7 @@
                                 @foreach ($transaksi_keuangan as $items)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $items->tanggal }}</td>
+                                        <td>{{ (new DateTime($items->tanggal))->format('d-M-y H:i') }}</td>
                                         <td>{{ $items->keterangan }}</td>
                                         <td>{{ $items->is_bank ? 'Yes' : 'No' }}</td>
                                         <td>{{ $items->status == 'penerimaan' ? $items->jml_transaksi : 0 }}</td>
@@ -105,14 +105,6 @@
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Keterangan </label>
                         <textarea name="keterangan" class="form-control" id="exampleFormControlInput1" required></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Bank BNI</label>
-                        <select name="is_bank" class="form-control" id="exampleFormControlInput1">
-                            <option value="0">Tidak</option>
-                            <option value="1">Ya</option>
-                        </select>
                     </div>
 
                     <div class="form-group">
